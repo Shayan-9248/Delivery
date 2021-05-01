@@ -5,5 +5,5 @@ app_name = 'account'
 
 
 urlpatterns = [
-    path('account/sign-in/', views.SignIn.as_view(), name='sing-in'),
+    path('accounts/sign-in/', views.SignIn.as_view(), name='sign-in'),
 ]
