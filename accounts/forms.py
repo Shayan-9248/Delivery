@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
+from captcha.fields import CaptchaField
 
 from .models import User
 
@@ -36,3 +37,10 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'username')
+
+
+class SignInForm(forms.Form):
+    email = forms.EmailField(error_messages={'required': 'this field is required'}, widget=forms.TextInput())
+    password = forms.CharField(error_messages={'required': 'this field is required'}, widget=forms.PasswordInput())
+    remember = forms.CharField(required=False, label='Remember Me', widget=forms.CheckboxInput())
+    captcha = CaptchaField()
