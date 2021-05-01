@@ -283,7 +283,7 @@ h3 {
 /* line 176, ../../Arafath/CL/December/229. Restaurant (Burger)/HTML/scss/theme-default.scss */
 .section-padding {
   padding-top: 120px;
-  direction: rtl;
+  direction: ltr;
   padding-bottom: 120px;
 }
 
