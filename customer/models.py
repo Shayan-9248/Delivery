@@ -22,6 +22,7 @@ class MenuItem(models.Model):
     image = models.ImageField(default='1.jpg')
     price = models.DecimalField(max_digits=7, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    available = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

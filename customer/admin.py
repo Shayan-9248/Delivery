@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib import messages
+from django.utils.translation import ngettext
 from .models import (
     Category,
     MenuItem,
@@ -12,8 +14,27 @@ class MenuItemAdmin(admin.ModelAdmin):
         'price', 
         'category', 
         'image_thumbnail',
+        'available',
     )
+    list_filter = ('available',)
     search_fields = ('name', 'category')
+    actions = ('make_available', 'make_unavailable')
+
+    def make_available(self, request, queryset):
+        updated = queryset.update(available=True)
+        self.message_user(request, ngettext(
+            '%d item was successfully marked as available.',
+            '%d items were successfully marked as available.',
+            updated,
+        ) % updated, messages.SUCCESS)
+    
+    def make_unavailable(self, request, queryset):
+        updated = queryset.update(available=False)
+        self.message_user(request, ngettext(
+            '%d this item was successfully marked as unavailable.',
+            '%d this items were successfully marked as unavailable.',
+            updated,
+        ) % updated, messages.SUCCESS)
 
 
 class OrderModelAdmin(admin.ModelAdmin):
