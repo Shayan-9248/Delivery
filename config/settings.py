@@ -152,3 +152,11 @@ AWS_STORAGE_BUCKET_NAME = 'codemt'
 AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'
 AWS_S3_FILE_OVERWRITE = False
 AWS_SERVICE_NAME = 's3'
+
+# Email Backend
+EMAIL_BACKEND = 'django.core.mails.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
