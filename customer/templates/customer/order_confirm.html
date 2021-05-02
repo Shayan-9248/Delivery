@@ -11,6 +11,19 @@
                 {% for item in items %}
                     <p>{{ item.name }}<span>${{ item.price }}</span></p>
                 {% endfor %}
+                <p>Total Price: ${{ price }}</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h4>Pay now or pay with cash at Delivery</h4>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <a class="btn btn-outline-info" href="{% url 'customer:request' order.price order.id %}">Payment</a>
             </div>
         </div>
     </div>

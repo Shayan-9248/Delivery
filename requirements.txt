@@ -15,4 +15,5 @@ pytz==2021.1
 s3transfer==0.4.2
 six==1.15.0
 sqlparse==0.4.1
+suds-py3==1.4.4.1
 urllib3==1.26.4

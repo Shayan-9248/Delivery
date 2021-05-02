@@ -4,6 +4,8 @@ from .models import (
     MenuItem,
     OrderModel
 )
+from django.http import HttpResponse
+from zeep import Client
 
 
 class Index(View):
@@ -65,6 +67,40 @@ class Order(View):
         context = {
             'items': order_items['items'],
             'price': price,
-            'form': form
+            'order': order
         }
         return render(request, 'customer/order_confirm.html', context)
+
+
+MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
+client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
+description = ""  # Required
+mobile = '09123456789'  # Optional
+CallbackURL = 'http://localhost:8000/verify/' # Important: need to edit for realy server.
+
+
+def send_request(request, price, order_id):
+    global amount, o_id
+    amount = price
+    o_id = order_id
+    result = client.service.PaymentRequest(MERCHANT, amount, description, request.user.email, mobile, CallbackURL)
+    if result.Status == 100:
+        return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
+    else:
+        return HttpResponse('Error code: ' + str(result.Status))
+
+
+def verify(request):
+    if request.GET.get('Status') == 'OK':
+        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
+        if result.Status == 100:
+            order = OrderModel.objects.get(id=o_id)
+            order.is_paid = True
+            order.save()
+            return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
+        elif result.Status == 101:
+            return HttpResponse('Transaction submitted : ' + str(result.Status))
+        else:
+            return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
+    else:
+        return HttpResponse('Transaction failed or canceled by user')
