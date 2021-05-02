@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
     'customer.apps.CustomerConfig',
+    'restaurant.apps.RestaurantConfig',
 
     # Third-Party App
     'captcha',
