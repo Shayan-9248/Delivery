@@ -1,0 +1,114 @@
+{% extends 'base/base.html' %}
+
+{% block title %} Order {% endblock %}
+
+
+{% block content %}
+    <div class="container mb-5">
+        <div class="row justify-content-center mt-1">
+            <div class="col-md-12 col-sm-12 p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for appetizer in appetizers %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <img src="{{ appetizer.image.url }}" class="rounded" width="150" height="100">
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="d-flex flex-row">
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" name="items[]" class="form-check-input" value="{{ appetizer.id }}">
+                                        <label class="form-check-label">{{ appetizer.name }}</label>
+                                    </div>
+                                    <p class="font-weigth-bold pl-5">${{ appetizer.price }}</p>
+                                </div>
+                                <p>{{ appetizer.description }}</p>
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                    {% for main_food in main_foods %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <img src="{{ main_food.image.url }}" class="rounded" width="150" height="100">
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="d-flex flex-row">
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" name="items[]" class="form-check-input" value="{{ main_food.id }}">
+                                        <label class="form-check-label">{{ main_food.name }}</label>
+                                    </div>
+                                    <p class="font-weigth-bold pl-5">${{ main_food.price }}</p>
+                                </div>
+                                <p>{{ main_food.description }}</p>
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                    {% for dessert in desserts %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <img src="{{ dessert.image.url }}" class="rounded" width="150" height="100">
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="d-flex flex-row">
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" name="items[]" class="form-check-input" value="{{ dessert.id }}">
+                                        <label class="form-check-label">{{ dessert.name }}</label>
+                                    </div>
+                                    <p class="font-weigth-bold pl-5">${{ dessert.price }}</p>
+                                </div>
+                                <p>{{ dessert.description }}</p>
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                    {% for drink in drinks %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <img src="{{ drink.image.url }}" class="rounded" width="150" height="100">
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="d-flex flex-row">
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" name="items[]" class="form-check-input" value="{{ drink.id }}">
+                                        <label class="form-check-label">{{ drink.name }}</label>
+                                    </div>
+                                    <p class="font-weigth-bold pl-5">${{ drink.price }}</p>
+                                </div>
+                                <p>{{ drink.description }}</p>
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label for="name">Name</label>
+                            <input class="form-control" type="text" placeholder="Your Name" name="name">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label for="name">Email</label>
+                            <input class="form-control" type="text" placeholder="Email Address" name="email">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label for="name">Phone Number</label>
+                            <input class="form-control" type="text" placeholder="Phone Number" name="phone">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label for="name">Address</label>
+                            <input class="form-control" type="text" placeholder="Address" name="address">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-primary">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

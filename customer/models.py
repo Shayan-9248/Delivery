@@ -38,6 +38,7 @@ class MenuItem(models.Model):
 
 class OrderModel(models.Model):
     items = models.ManyToManyField(MenuItem, blank=True)
+    price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     name = models.CharField(max_length=40)
     email = models.EmailField(max_length=70)
     phone = models.CharField(max_length=12)

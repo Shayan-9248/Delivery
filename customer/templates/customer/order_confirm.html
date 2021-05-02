@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+
+{% block title %} Order Confirmation {% endblock %}
+
+
+{% block content %}
+    <div class="container mb-5">
+        <div class="row justify-content-center mt-1">
+            <div class="col-md-5 col-sm-12 text-center">
+                <h3>Order Summary</h3>
+                {% for item in items %}
+                    <p>{{ item.name }}<span>${{ item.price }}</span></p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
