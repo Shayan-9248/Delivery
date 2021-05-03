@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.html import format_html
+from accounts.models import (
+    User
+)
 
 
 class Category(models.Model):
@@ -37,6 +40,7 @@ class MenuItem(models.Model):
 
 
 class OrderModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(MenuItem, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     name = models.CharField(max_length=40)

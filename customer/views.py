@@ -56,6 +56,7 @@ class Order(View):
             item_ids.append(item['id'])
 
         order = OrderModel.objects.create(
+            user=request.user,
             price=price,
             name=name,
             email=email,
@@ -87,6 +88,9 @@ def send_request(request, price, order_id):
     if result.Status == 100:
         return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
     else:
+        order = OrderModel.objects.get(id=o_id)
+        order.is_paid = True
+        order.save()
         return HttpResponse('Error code: ' + str(result.Status))
 
 
@@ -94,9 +98,6 @@ def verify(request):
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
         if result.Status == 100:
-            order = OrderModel.objects.get(id=o_id)
-            order.is_paid = True
-            order.save()
             return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
         elif result.Status == 101:
             return HttpResponse('Transaction submitted : ' + str(result.Status))
@@ -104,3 +105,11 @@ def verify(request):
             return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
     else:
         return HttpResponse('Transaction failed or canceled by user')
+
+
+class History(View):
+    template_name = 'customer/history.html'
+
+    def get(self, request):
+        orders = OrderModel.objects.filter(user_id=request.user.id)
+        return render(request, self.template_name, {'orders': orders})
