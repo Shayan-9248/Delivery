@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Contact Page {% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="col-6">
+            <form method="post">
+                {% csrf_token %}
+                <div class="">
+                    <div class="form-group pt-3">
+                        <label for="name">Name</label>
+                        <input class="form-control" type="text" placeholder="Your Name Address" name="name">
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group pt-3">
+                        <label for="name">Email</label>
+                        <input class="form-control" type="text" placeholder="Email Address" name="email">
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group pt-3">
+                        <label for="name">Subject</label>
+                        <input class="form-control" type="text" placeholder="Subject" name="subject">
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group pt-3">
+                        <label for="name">Content</label>
+                        <input class="form-control" type="text" placeholder="Your Message" name="body">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

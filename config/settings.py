@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'customer.apps.CustomerConfig',
     'restaurant.apps.RestaurantConfig',
+    'contact.apps.ContactConfig',
 
     # Third-Party App
     'captcha',
@@ -155,7 +156,7 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_SERVICE_NAME = 's3'
 
 # Email Backend
-EMAIL_BACKEND = 'django.core.mails.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
