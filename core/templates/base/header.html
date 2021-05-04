@@ -7,6 +7,9 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
     {% if not request.user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account:sign-up' %}">sign-up</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'account:sign-in' %}">sign-in</a>
       </li>

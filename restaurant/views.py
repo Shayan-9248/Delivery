@@ -37,8 +37,9 @@ class Dashboard(LoginRequiredMixin, AccessMixin, View):
         return render(request, self.template_name, context)
 
 
-class OrderDetail(View):
+class OrderDetail(LoginRequiredMixin, AccessMixin, View):
     template_name = 'restaurant/detail.html'
+    login_url = 'account:sign-in'
 
     def get(self, request, id):
         order = OrderModel.objects.get(id=id)

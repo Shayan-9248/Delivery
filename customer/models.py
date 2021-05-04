@@ -6,6 +6,16 @@ from accounts.models import (
 )
 
 
+class TimeStamp(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return f"{self.created.strftime('%Y-%m-%d')}"
+    
+
 class Category(models.Model):
     title = models.CharField(max_length=40)
     slug = models.SlugField(unique=True, null=True, blank=True)
@@ -39,7 +49,8 @@ class MenuItem(models.Model):
     image_thumbnail.short_description = 'Image'
 
 
-class OrderModel(models.Model):
+class OrderModel(TimeStamp):
+    STATUSES = ('is_paid', 'is_shipped')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(MenuItem, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
@@ -47,9 +58,8 @@ class OrderModel(models.Model):
     email = models.EmailField(max_length=70)
     phone = models.CharField(max_length=12)
     address = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
     is_shipped = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.email} - {self.created.strftime('%Y-%m-%d')}"
+        return f"{self.email}"

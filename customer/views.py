@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views import View
 from .models import (
     MenuItem,
@@ -15,7 +17,8 @@ class Index(View):
         return render(request, self.template_name)
 
 
-class Order(View):
+class Order(LoginRequiredMixin, View):
+    login_url = 'account:sign-in'
     def get(self, request):
         # get every item for each context
         appetizers = MenuItem.objects.filter(category__title__icontains='Appetizer')
@@ -80,6 +83,7 @@ mobile = '09123456789'  # Optional
 CallbackURL = 'http://localhost:8000/verify/' # Important: need to edit for realy server.
 
 
+@login_required(login_url='account:sign-in')
 def send_request(request, price, order_id):
     global amount, o_id
     amount = price
@@ -94,6 +98,7 @@ def send_request(request, price, order_id):
         return HttpResponse('Error code: ' + str(result.Status))
 
 
+@login_required(login_url='account:sign-in')
 def verify(request):
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
@@ -107,8 +112,9 @@ def verify(request):
         return HttpResponse('Transaction failed or canceled by user')
 
 
-class History(View):
+class History(LoginRequiredMixin, View):
     template_name = 'customer/history.html'
+    login_url = 'account:sign-in'
 
     def get(self, request):
         orders = OrderModel.objects.filter(user_id=request.user.id)
