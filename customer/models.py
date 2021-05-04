@@ -50,9 +50,8 @@ class MenuItem(models.Model):
 
 
 class OrderModel(TimeStamp):
-    STATUSES = ('is_paid', 'is_shipped')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    items = models.ManyToManyField(MenuItem, blank=True)
+    items = models.ManyToManyField(MenuItem, blank=True, related_name='items')
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     name = models.CharField(max_length=40)
     email = models.EmailField(max_length=70)

@@ -27,6 +27,7 @@ requests-file==1.5.1
 requests-toolbelt==0.9.1
 s3transfer==0.4.2
 six==1.15.0
+sorl-thumbnail==12.7.0
 sqlparse==0.4.1
 suds-py3==1.4.4.1
 urllib3==1.26.4
