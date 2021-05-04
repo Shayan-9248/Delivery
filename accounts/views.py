@@ -67,7 +67,7 @@ class SignUp(View):
             data = form.cleaned_data
             user = User.objects.create_user(
                 username=data['username'],
-                email=data['emial'],
+                email=data['email'],
                 password=data['password'],
             )
             user.is_active = False
@@ -93,9 +93,9 @@ class ActiveEmail(View):
         user_id = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(id=user_id)
         if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        return redirect('account:sign-in')
+            user.is_active = True
+            user.save()
+            return redirect('account:sign-in')
 
 
 class Logout(LoginRequiredMixin, View):

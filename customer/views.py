@@ -7,6 +7,7 @@ from .models import (
     OrderModel
 )
 from django.http import HttpResponse
+from django.db.models import Q
 from zeep import Client
 
 
@@ -119,3 +120,23 @@ class History(LoginRequiredMixin, View):
     def get(self, request):
         orders = OrderModel.objects.filter(user_id=request.user.id)
         return render(request, self.template_name, {'orders': orders})
+
+
+class Menu(View):
+    template_name = 'customer/menu.html'
+
+    def get(self, request):
+        menu_items = MenuItem.objects.filter(available=True)
+        return render(request, self.template_name, {'menu_items': menu_items})
+
+
+class MenuSearch(View):
+    template_name = 'customer/menu.html'
+
+    def get(self, request):
+        search = self.request.GET.get('q', False)
+        menu_items = MenuItem.objects.filter(
+            Q(name__icontains=search) |
+            Q(description__icontains=search)
+        )
+        return render(request, self.template_name, {'menu_items': menu_items})

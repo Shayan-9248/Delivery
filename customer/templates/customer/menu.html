@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+
+{% block title %} Menu Search {% endblock %}
+
+
+{% block content %}
+     <div class="container">
+        <div class="row justify-content-center">
+            <h1>Whats on our Menu?</h1>
+        </div>
+
+        <div class="row justify-content-center">
+            <form method="get" action="{% url 'customer:menu-search' %}">
+                <div class="md-form mt-0 active-cyan-2">
+                    <input class="form-control" name="q" type="text" placeholder="Search Our Menu" value="{{ request.GET.q }}">
+                </div>
+            </form>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for item in menu_items %}
+            <div class="col-md-4 col-sm-12 text-center mt-5">
+                <img src="{{ item.image.url }}" height="300px" width="300px">
+                <h5 class="mt3"><a href="{% url 'customer:order' %}">{{ item.name }}</a></h5>
+                <p>Price: {{ item.price }}</p>
+                <p>{{ item.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

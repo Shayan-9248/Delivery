@@ -10,4 +10,6 @@ urlpatterns = [
     path('request/<price>/<int:order_id>/', views.send_request, name='request'),
     path('verify/', views.verify , name='verify'),
     path('purchase-history/', views.History.as_view(), name='history'),
+    path('menu/', views.Menu.as_view(), name='menu'),
+    path('menu-search/', views.MenuSearch.as_view(), name='menu-search'),
 ]
