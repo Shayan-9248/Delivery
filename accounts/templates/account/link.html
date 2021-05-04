@@ -1,0 +1,4 @@
+{% autoescape off %}
+    Click on link to reset your password
+    {{ protocol }}://{{ domain }}{% url 'account:confirm' uidb64=uid token=token %}
+{% endautoescape %}

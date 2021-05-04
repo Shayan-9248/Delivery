@@ -8,8 +8,14 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib import messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
+from django.contrib.auth.views import (
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
 from .forms import (
     SignInForm,
     SignUpForm
@@ -105,3 +111,22 @@ class Logout(LoginRequiredMixin, View):
         logout(request)
         messages.success(request, 'Logged out successfully', 'success')
         return redirect('/')
+
+
+class PasswordReset(PasswordResetView):
+    template_name = 'account/reset.html'
+    success_url = reverse_lazy('account:done')
+    email_template_name = 'account/link.html'
+
+
+class PasswordDone(PasswordResetDoneView):
+    template_name = 'account/done.html'
+
+
+class PasswordConfirm(PasswordResetConfirmView):
+    template_name = 'account/confirm.html'
+    success_url = reverse_lazy('account:complete')
+
+
+class PasswordComplete(PasswordResetCompleteView):
+    template_name = 'account/complete.html'
