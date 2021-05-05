@@ -13,4 +13,6 @@ urlpatterns = [
     path('password-done/', views.PasswordDone.as_view(), name='done'),
     path('confirm-password/<uidb64>/<token>/', views.PasswordConfirm.as_view(), name='confirm'),
     path('complete-password-reset/', views.PasswordComplete.as_view(), name='complete'),
+    path('user-panel/', views.UserPanel.as_view(), name='user-panel'),
+    path('profile/', views.UserProfile.as_view(), name='profile'),
 ]

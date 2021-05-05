@@ -79,3 +79,15 @@ class SignUpForm(forms.Form):
         if password != confirm_password:
             raise ValidationError('Passwords must match')
         return confirm_password
+
+
+class UserProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['username'].disabled = True
+        self.fields['email'].disabled = True
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')

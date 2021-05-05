@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -9,6 +9,7 @@ from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import UpdateView
 from django.views import View
 from django.contrib.auth.views import (
     PasswordResetView,
@@ -18,7 +19,8 @@ from django.contrib.auth.views import (
 )
 from .forms import (
     SignInForm,
-    SignUpForm
+    SignUpForm,
+    UserProfileForm
 )
 from .models import User
 
@@ -130,3 +132,19 @@ class PasswordConfirm(PasswordResetConfirmView):
 
 class PasswordComplete(PasswordResetCompleteView):
     template_name = 'account/complete.html'
+
+
+class UserPanel(View):
+    template_name = 'account/user_panel.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class UserProfile(UpdateView):
+    template_name = 'account/profile.html'
+    model = User
+    form_class = UserProfileForm
+
+    def get_object(self):
+        return get_object_or_404(User, pk=self.request.user.pk)
