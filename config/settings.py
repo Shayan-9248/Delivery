@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'admin_honeypot',
+    'defender',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -68,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'defender.middleware.FailedLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -182,3 +185,8 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# Django Defender
+DEFENDER_LOGIN_FAILURE_LIMIT = 2
+DEFENDER_COOLOFF_TIME = 43200
+DEFENDER_LOCKOUT_TEMPLATE = 'base/defender.html'
