@@ -25,7 +25,7 @@ class Bucket:
             self.conn.download_fileobj(settings.AWS_STORAGE_BUCKET_NAME, key, f)
     
     def delete_object(self, key):
-        self.conn.delete_object(Bucket=self.AWS_STORAGE_BUCKET_NAME,Key=key)
+        self.conn.delete_object(Bucket=self.AWS_STORAGE_BUCKET_NAME, Key=key)
 
 
 bucket = Bucket()
