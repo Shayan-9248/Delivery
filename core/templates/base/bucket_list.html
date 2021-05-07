@@ -22,8 +22,8 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{ object.Key }}</td>
                 <td>{{ object.Size|convert }}</td>
-                {% comment %} <td><a href="{% url 'core:download' object.Key %}"><i class="fa fa-download"></i></a></td>
-                <td><a href="{% url 'core:delete' object.Key %}"><i class="fa fa-trash"></i></a></td> {% endcomment %}
+                <td><a href="{% url 'core:download' object.Key %}"><i class="fa fa-download"></i></a></td>
+                <td><a href="{% url 'core:delete' object.Key %}"><i class="fa fa-trash"></i></a></td>
                 {% empty %}
                 <p class="alert alert-warning">No buckets yet</p>
                 </tr>

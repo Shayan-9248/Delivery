@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib import messages
@@ -148,3 +150,24 @@ class UserProfile(UpdateView):
 
     def get_object(self):
         return get_object_or_404(User, pk=self.request.user.pk)
+
+
+class ChangePassword(LoginRequiredMixin, View):
+    template_name = 'account/change_pass.html'
+    login_url = 'account:sign-in'
+    form_class = PasswordChangeForm
+
+    def get(self, request):
+        form = self.form_class(request.user)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!', 'success')
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Please correct the error below.', 'danger')
+        return render(request, self.template_name, {'form': form})
