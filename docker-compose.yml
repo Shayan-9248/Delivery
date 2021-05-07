@@ -1,0 +1,43 @@
+version: "3.8"
+
+
+services:
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:latest
+        networks:
+            - main
+        ports:
+            "5672:5672"
+        restart: on-failure
+    
+    celery_worker:
+        container_name: celery_worker
+        commad: "celery -A config worker -l info"
+        depends_on:
+            - rabbitmq
+            - app
+        image: app
+        environment:
+            - C_FORCE_ROOT="true"
+        networks:
+            - main
+        restart: on-failure
+    
+    app:
+        build: .
+        command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        container_name: app
+        volumes:
+            - .:/src
+        depends_on:
+            - rabbitmq
+        ports:
+            - "8000:8000"
+        networks:
+            - main
+        restart: on-failure
+
+
+networks:
+    main:
