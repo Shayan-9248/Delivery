@@ -8,9 +8,9 @@ def get_objects_list_task():
 
 @shared_task
 def download_object_task(key):
-    return bucket.download_object
+    return bucket.download_object(key)
 
 
 @shared_task
 def delete_object_task(key):
-    return bucket.delete_object
+    return bucket.delete_object(key)

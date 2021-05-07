@@ -7,9 +7,10 @@ from .tasks import (
     download_object_task,
     delete_object_task,
 )
+from .mixins import AccessMixin
 
 
-class BucketList(LoginRequiredMixin, View):
+class BucketList(AccessMixin, LoginRequiredMixin, View):
     template_name = 'base/bucket_list.html'
     login_url = 'account:sign-in'
 
@@ -18,7 +19,7 @@ class BucketList(LoginRequiredMixin, View):
         return render(request, self.template_name, {'objects': objects})
 
 
-class DownloadBucket(LoginRequiredMixin ,View):
+class DownloadBucket(AccessMixin, LoginRequiredMixin ,View):
     login_url = 'account:sign-in'
 
     def get(self, request, key):
@@ -27,7 +28,7 @@ class DownloadBucket(LoginRequiredMixin ,View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class DeleteBucket(LoginRequiredMixin ,View):
+class DeleteBucket(AccessMixin, LoginRequiredMixin ,View):
     login_url = 'account:sign-in'
 
     def get(self, request, key):

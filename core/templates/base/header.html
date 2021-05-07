@@ -3,6 +3,9 @@
   <a class="navbar-brand" href="{% url 'contact:contact' %}">Contact</a>
   <a class="navbar-brand" href="{% url 'customer:menu' %}">Menu</a>
   <a class="navbar-brand" href="{% url 'account:user-panel' %}">User Panel</a>
+  {% if request.user.is_staff %}
+    <a class="navbar-brand" href="{% url 'core:list' %}">Buckets</a>
+  {% endif %}
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
