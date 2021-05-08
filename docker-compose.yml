@@ -8,12 +8,12 @@ services:
         networks:
             - main
         ports:
-            "5672:5672"
+            - "5672:5672"
         restart: on-failure
     
     celery_worker:
         container_name: celery_worker
-        commad: "celery -A config worker -l info"
+        command: "celery -A config worker -l info"
         depends_on:
             - rabbitmq
             - app

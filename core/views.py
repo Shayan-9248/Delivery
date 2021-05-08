@@ -35,3 +35,7 @@ class DeleteBucket(AccessMixin, LoginRequiredMixin ,View):
         delete_object_task.delay(key)
         messages.success(request, 'Your demand will be response soon', 'success')
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+def error_404(request, exception=None):
+    return render(request, 'base/404.html')

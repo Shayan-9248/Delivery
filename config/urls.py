@@ -1,5 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import handler404
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('lsuopd/', admin.site.urls),
@@ -13,3 +17,5 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('allauth.urls')),
 ]
+
+handler404 = 'core.views.error_404'

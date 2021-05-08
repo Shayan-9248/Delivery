@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib import messages
 from django.utils.translation import ngettext
+from accounts.models import User
 from .models import (
     Category,
     MenuItem,
@@ -38,6 +39,11 @@ class MenuItemAdmin(admin.ModelAdmin):
 
 
 class OrderModelAdmin(admin.ModelAdmin):
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == "user":
+    #         kwargs["queryset"] = User.objects.filter(is_admin=True)
+    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     list_display = (
         'name',
         'email',
