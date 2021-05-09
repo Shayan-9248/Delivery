@@ -6,7 +6,7 @@
 
 #### Requirements
 
-* Python3.9
+* Python3.9, Django3.0.5
 
 1. Create a virtual environment via command **python3 -m venv venv**
 2. Activate virtual envrironment via **source venv/bin/activate**, Now at the beggening of each line you see (venv).

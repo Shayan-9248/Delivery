@@ -25,6 +25,8 @@ from .forms import (
     UserProfileForm
 )
 from .models import User
+from django.conf import settings
+import requests
 
 
 class SignIn(View):
@@ -41,23 +43,30 @@ class SignIn(View):
         next = request.GET.get('next')
         form = self.form_class(request.POST)
         if form.is_valid():
-            human = True
             data = form.cleaned_data
             remember = form.cleaned_data['remember']
             user = authenticate(email=data['email'], password=data['password'])
-            if user is not None:
-                if next:
-                    return redirect(next)
-                login(request, user)
-                if not remember:
-                    request.session.set_expiry(0)
+            response = request.POST.get('g-recaptcha-response')
+            data = {
+                'secret': settings.RECAPTCHA_PRIVATE_KEY,
+                'response': response
+            }
+            info = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+            auth = info.json()
+            if auth['success']:
+                if user is not None:
+                    if next:
+                        return redirect(next)
+                    login(request, user)
+                    if not remember:
+                        request.session.set_expiry(0)
+                    else:
+                        request.session.set_expiry(86400)
+                    return redirect('/')
                 else:
-                    request.session.set_expiry(86400)
-                return redirect('/')
+                    form.add_error('email', 'email or password is incorrect')
             else:
-                form.add_error('email', 'email or password is incorrect')
-        else:
-            messages.error(request, 'Invalid Recaptcha', 'danger')
+                messages.error(request, 'Invalid Recaptcha', 'danger')
         return render(request, self.template_name, {'form': form})
 
 

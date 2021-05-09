@@ -14,8 +14,8 @@
                 {{ form.email|as_crispy_field }}
                 {{ form.password|as_crispy_field }}
                 {{ form.remember|as_crispy_field }}
-                {{ form.captcha }}<br>
                 <a href="{% url 'account:reset' %}">Forgot passwrod?</a><br><br>
+                <div class="g-recaptcha" data-sitekey="6Le468waAAAAAPqKICAW_cp7-2E7fJlOxQ6mJIVX"></div>
                 <button type="submit" class="btn btn-outline-primary">sign-in</button><hr>
                 <a href="{% provider_login_url "google" %}"><i class="fab fa-google"></i></a>
             </form>

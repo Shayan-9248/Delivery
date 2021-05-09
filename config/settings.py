@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'contact.apps.ContactConfig',
 
     # Third-Party App
-    'captcha',
     'crispy_forms',
     'sorl.thumbnail',
     'allauth',
@@ -99,8 +98,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'delivery',
     }
 }
 
@@ -192,3 +191,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 DEFENDER_LOGIN_FAILURE_LIMIT = 2
 DEFENDER_COOLOFF_TIME = 43200
 DEFENDER_LOCKOUT_TEMPLATE = 'base/defender.html'
+
+# Recaptcha
+RECAPTCHA_SITE_KEY = config('RECAPTCHA_SITE_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
